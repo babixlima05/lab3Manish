@@ -42,7 +42,6 @@ R = [[0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0,
 R = np.matrix(R)
 decodificado = R*vetor
 
-print(int(decodificado[0]))
 for i in decodificado:
  	saida.write(str(int(i)))
 
