@@ -35,8 +35,16 @@ for i in range(3):
 index = index - 1
 
 vetor[index] = (vetor[index]+1)%2
-for i in vetor[:4]:
-	saida.write(str(i))
+vetor = np.matrix(vetor).getT()
+
+R = [[0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1]] 
+
+R = np.matrix(R)
+decodificado = R*vetor
+
+print(int(decodificado[0]))
+for i in decodificado:
+ 	saida.write(str(int(i)))
 
 arq.close()
 saida.close()
