@@ -41,6 +41,7 @@ R = [[0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0,
 
 R = np.matrix(R)
 decodificado = R*vetor
+decodificado =  vecFunc(decodificado)
 
 for i in decodificado:
  	saida.write(str(int(i)))
