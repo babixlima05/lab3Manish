@@ -7,44 +7,40 @@ def mod2(x):
 arq = open("recebido.txt", "r")
 saida = open("decodificado.txt", "w")
 
-txt = arq.read()
-txt = txt.rstrip("\n")
+stringEntrada = arq.read()
+stringEntrada = stringEntrada.rstrip("\n")
 
-vetor = []
+vetorEntrada = []
 
-for i in txt:
-	vetor.append(int(i))
+for i in stringEntrada:
+	vetorEntrada.append(int(i))
 
-matrixCol = np.matrix(vetor).getT()
+matrixCol = np.matrix(vetorEntrada).getT()
 
-H = [[1, 0, 1, 0, 1, 0, 1], [0, 1, 1, 0, 0, 1, 1], [0, 0, 0, 1, 1, 1, 1]] 
+H = [[1, 1, 1, 0, 1, 0, 0], [1, 0, 1, 1, 0, 1, 0], [1, 1, 0, 1, 0, 0, 1]] 
 
 H = np.matrix(H)
 M = H*matrixCol
 
 vecFunc = np.vectorize(mod2)
-result = vecFunc(M)
-
-result = str(result)
-
-index = 0
+vectorError = vecFunc(M)
+vectorError = str(vectorError)
+stringError = ""
 
 for i in range(3):
-	index = index + (2**i)*int(result[2+5*i])
+	stringError = stringError + vectorError[2 + 5*i]
 
-index = index - 1
+cases = {"000":0, "001": 5, "010":6, "011": 4, "100":7, "101":2, "110":3, "111":1}
+index = cases.get(stringError, 'default')
 
-vetor[index] = (vetor[index]+1)%2
-vetor = np.matrix(vetor).getT()
+if index != 0:
+	index = index - 1
+	vetorEntrada[index] = (vetorEntrada[index]+1)%2
 
-R = [[0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1]] 
-
-R = np.matrix(R)
-decodificado = R*vetor
-decodificado =  vecFunc(decodificado)
+decodificado = vetorEntrada[:4]
 
 for i in decodificado:
- 	saida.write(str(int(i)))
+	saida.write(str(int(i)))
 
 arq.close()
 saida.close()

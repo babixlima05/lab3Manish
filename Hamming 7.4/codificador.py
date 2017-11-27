@@ -7,30 +7,31 @@ def mod2(x):
 arq = open("transmitido.txt", "r")
 saida = open("codificado.txt", "w")
 
-txt = arq.read()
-txt = txt.rstrip("\n")
 
-vetor = []
+stringEntrada = arq.read()
+stringEntrada = stringEntrada.rstrip("\n")
 
-for i in txt:
-	vetor.append(int(i))
+vetorEntrada = []
 
-vetor = np.matrix(vetor).getT()
+for i in stringEntrada:
+	vetorEntrada.append(int(i))
 
-G = [[1, 1, 0, 1], [1, 0, 1, 1], [1, 0, 0, 0], [0, 1, 1, 1], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
-
+G = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [1, 1, 0, 1], [1, 0, 1, 1], [0, 1, 1, 1]]
 G = np.matrix(G)
-M = G*vetor
+
+vetorEntrada = np.matrix(vetorEntrada).getT()
+
+M = G*vetorEntrada
 
 vecFunc = np.vectorize(mod2)
 result = vecFunc(M)
-
+print(result)
 result = str(result)
-print(result[17])
-resultFinal = ""
-for i in range(7):
-	resultFinal = resultFinal + result[2 + 5*i]
+stringSaida = ""
 
-saida.write(resultFinal)
+for i in range(7):
+	stringSaida = stringSaida + result[2 + 5*i]
+
+saida.write(stringSaida)
 arq.close()
 saida.close()
