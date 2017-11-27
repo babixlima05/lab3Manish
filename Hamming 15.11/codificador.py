@@ -7,45 +7,48 @@ def mod2(x):
 arq = open("transmitido.txt", "r")
 saida = open("codificado.txt", "w")
 
-txt = arq.read()
-txt = txt.rstrip("\n")
+qtd = arq.readline()
+saida.write(qtd)
 
-vetor = []
+for i in range(int(qtd)):
+	stringEntrada = arq.read()
+	stringEntrada = stringEntrada.rstrip("\n")
 
-for i in txt:
-	vetor.append(int(i))
+	vetorEntrada = []
 
-vetor = np.matrix(vetor).getT()
+	for i in stringEntrada:
+		vetorEntrada.append(int(i))
 
-G = [[1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
-[1, 0, 1, 1, 0, 1, 1, 0, 0, 1 ,1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]]
+	vetorEntrada = np.matrix(vetorEntrada).getT()
 
-G = np.matrix(G)
-M = G*vetor
-print(M)
-vecFunc = np.vectorize(mod2)
-result = vecFunc(M)
+	G = [[1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
+	[1, 0, 1, 1, 0, 1, 1, 0, 0, 1 ,1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1],
+	[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+	[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]]
 
-result = str(result)
-print(result)
-resultFinal = ""
-for i in range(15):
-	resultFinal = resultFinal + result[2 + 5*i]
+	G = np.matrix(G)
+	M = G*vetorEntrada
 
-saida.write(resultFinal)
+	vecFunc = np.vectorize(mod2)
+	result = vecFunc(M)
+	result = str(result)
+	
+	resultFinal = ""
+	for i in range(15):
+		resultFinal = resultFinal + result[2 + 5*i]
+
+	saida.write(resultFinal + "\n")
 
 arq.close()
 saida.close()

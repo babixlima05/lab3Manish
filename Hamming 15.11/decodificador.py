@@ -7,54 +7,60 @@ def mod2(x):
 arq = open("recebido.txt", "r")
 saida = open("decodificado.txt", "w")
 
-txt = arq.read()
-txt = txt.rstrip("\n")
+qtd = arq.readline()
 
-vetor = []
+for i in range(int(qtd)):
+	stringEntrada = arq.read()
+	stringEntrada = stringEntrada.rstrip("\n")
 
-for i in txt:
-	vetor.append(int(i))
+	vetorEntrada = []
 
-matrixCol = np.matrix(vetor).getT()
+	for i in stringEntrada:
+		vetorEntrada.append(int(i))
 
-H = [[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[0,1,1,0,0,1,1,0,0,1,1,0,0,1,1],[0,0,0,1,1,1,1,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]] 
+	matrixCol = np.matrix(vetorEntrada).getT()
 
-H = np.matrix(H)
-M = H*matrixCol
+	H = [[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[0,1,1,0,0,1,1,0,0,1,1,0,0,1,1],[0,0,0,1,1,1,1,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]] 
 
-vecFunc = np.vectorize(mod2)
-result = vecFunc(M)
+	H = np.matrix(H)
+	M = H*matrixCol
 
-result = str(result)
+	vecFunc = np.vectorize(mod2)
+	vectorError = vecFunc(M)
 
-index = 0
+	vectorError = str(vectorError)
 
-for i in range(4):
-	index = index + (2**i)*int(result[2+5*i])
-print(index)
-index = index - 1
+	index = 0
 
-vetor[index] = (vetor[index]+1)%2
-vetor = np.matrix(vetor).getT()
-print(vetor)
-R = [[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],]
+	for i in range(4):
+		index = index + (2**i)*int(vectorError[2+5*i])
 
-R = np.matrix(R)
-decodificado = R*vetor
-decodificado =  vecFunc(decodificado)
+	if index != 0:
+		index = index - 1
+		vetorEntrada[index] = (vetorEntrada[index]+1)%2
+	
+	vetorEntrada = np.matrix(vetorEntrada).getT()
 
-for i in decodificado:
- 	saida.write(str(int(i)))
+	R = [[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+	[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],]
+
+	R = np.matrix(R)
+	decodificado = R*vetorEntrada
+	decodificado =  vecFunc(decodificado)
+
+	for i in decodificado:
+	 	saida.write(str(int(i)))
+
+	 saida.write("\n")
 
 arq.close()
 saida.close()
