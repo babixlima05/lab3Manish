@@ -60,7 +60,7 @@ for i in range(int(qtd)):
 	for i in decodificado:
 	 	saida.write(str(int(i)))
 
-	 saida.write("\n")
+	saida.write("\n")
 
 arq.close()
 saida.close()
